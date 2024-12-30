@@ -1,0 +1,49 @@
+<?php
+	ob_start();
+	session_start(); 
+	include '../base/config.php';
+	if(isset($_SESSION[$counterSessionName]['user_id']) && $_SESSION[$counterSessionName]['user_id']!="")
+	{ 
+		$role = $_POST['role'];
+		$valueId = $function->dataDecryption($_POST['valueId']);
+		if(preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬-]/',$valueId))
+		{
+			echo "<script>alert('Special Character is Available in Value ID');location.href='dashboard';</script>";
+		}
+		else  
+		{
+			if($role=="deActive")
+			{
+				$updateDeActive = mysqli_query($conn,"update ".$chairmanInCouncilDetailsTbl." set status='0' where id='".$valueId."'");
+				if($updateDeActive)
+				{
+					echo "1";
+				}
+				else
+				{
+					echo "2";
+				}
+			}
+			else if($role=="active")
+			{
+				$updateActive = mysqli_query($conn,"update ".$chairmanInCouncilDetailsTbl." set status='1' where id='".$valueId."'");
+				if($updateActive)
+				{
+					echo "1";
+				}
+				else
+				{
+					echo "2";
+				}								
+			}
+			else
+			{
+				echo "3";
+			}			
+		}		
+	}
+	else
+	{
+		echo "5";
+	}
+?> 

@@ -1,0 +1,522 @@
+<?php
+	ob_start();
+	session_start();
+	include 'base/config.php';
+	if(isset($_SESSION[$counterSessionName]['user_id']) && $_SESSION[$counterSessionName]['user_id']!="")
+	{
+		if($_SESSION[$counterSessionName]['designation_id']==1)
+		{
+			$mainPageName = "Sub Menu";
+			$subPageName = "Sub Menu";
+?>  
+<!DOCTYPE html> 
+<html class="loading" lang="en" data-textdirection="ltr">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+		<meta name="author" content="">
+		<title><?php echo $subPageName;?> | <?php echo $rowOrganizationDetails['organization_name'];?></title>
+		<link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
+		<link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/vendors/css/tables/datatable/datatables.min.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap-extended.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/colors.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/components.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/themes/dark-layout.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/themes/semi-dark-layout.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-menu.css">
+		<link rel="stylesheet" type="text/css" href="app-assets/css/core/colors/palette-gradient.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns"> 
+		<?php include 'base/header.php'; ?>
+		<?php include 'base/menubar.php'; ?>
+		<div class="app-content content">
+			<div class="content-overlay"></div>
+			<div class="header-navbar-shadow"></div>
+			<div class="content-wrapper">
+				<?php include 'base/breadcrumb.php'; ?> 
+				<div class="content-body">
+					<section id="basic-datatable">
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header">
+										<h4 class="card-title">Sub Menu</h4> 
+									</div>
+									<div class="card-content">
+										<div class="card-body card-dashboard">
+											<button class="btn btn-primary mb-2" data-toggle="modal" data-target="#large"><i class="feather icon-plus"></i>&nbsp; Add new record</button>
+											<div class="modal fade text-left" id="large" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h4 class="modal-title" id="myModalLabel17">Add Sub Menu</h4>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<div class="row">
+																<div class="col-12">
+																	<div class="form-group row">
+																		<div class="col-md-4">
+																			<span>Menu Category</span>
+																		</div>
+																		<div class="col-md-8">
+																			<select id="selectMenuCategory0" class="form-control" onchange="getMainMenu(0);">
+																				<option value="">Select Menu Category</option>
+																			<?php 
+																				$selectMenuCategory = mysqli_query($conn,"select * from ".$masterMenuCategoryTbl." where status='1' order by menu_category_name");
+																				while($rowMenuCategory = mysqli_fetch_array($selectMenuCategory))
+																				{
+																			?>
+																				<option value="<?php echo $rowMenuCategory['menu_category_id'];?>"><?php echo $rowMenuCategory['menu_category_name'];?></option>
+																			<?php
+																				}
+																			?>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-12">
+																	<div class="form-group row">
+																		<div class="col-md-4">
+																			<span>Main Menu</span>
+																		</div>
+																		<div class="col-md-8">
+																			<select id="selectMainMenu0" class="form-control">
+																				
+																			
+																			</select>
+																		</div>
+																	</div>
+																</div> 
+																<div class="col-12">
+																	<div class="form-group row">
+																		<div class="col-md-4">
+																			<span>Sub Menu Name</span>
+																		</div>
+																		<div class="col-md-8">
+																			<input type="text" id="menuSubName" class="form-control" name="menuSubName" placeholder="Sub Menu Name">
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" onclick="addSubMenu();" id="submitButton" class="btn btn-primary mr-1 mb-1">Add Sub Menu</button>
+															<button style="display:none;" id="loadingButton" class="btn btn-danger mb-1" type="button" disabled>
+																<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+																Loading...
+															</button>
+														</div>
+													</div>
+												</div>
+											</div> 
+											<div class="table-responsive">
+												<table class="table table-bordered zero-configuration">
+													<thead>
+														<tr>
+															<th>#ID</th>
+															<th>Menu Category</th>
+															<th>Main Menu</th>
+															<th>Sub Name</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody> 
+													<?php
+														$counter = 1; 
+														$selectMenu = mysqli_query($conn,"select * from ".$masterMenuModuleTbl." where parent_module_id!='0' order by module_name");
+														while($rowMenu = mysqli_fetch_array($selectMenu))
+														{
+															$selectMenuCategoryTbl = mysqli_query($conn,"select * from ".$masterMenuCategoryTbl." where menu_category_id='".$rowMenu['menu_category_id']."'");
+															$rowMenuCategoryTbl = mysqli_fetch_array($selectMenuCategoryTbl);
+															$selectParentMenu = mysqli_query($conn,"select * from ".$masterMenuModuleTbl." where module_id='".$rowMenu['parent_module_id']."'");
+															$rowParentMenu = mysqli_fetch_array($selectParentMenu);
+													?> 
+														<tr>
+															<td><?php echo $counter;?></td>
+															<td><?php echo $rowMenuCategoryTbl['menu_category_name'];?></td>
+															<td><?php echo $rowParentMenu['module_name'];?></td>
+															<td><?php echo $rowMenu['module_name'];?></td>
+															<td><input type="button" class="btn btn-success" value="Update" data-toggle="modal" data-target="#addNewDepartmentModal<?php echo $counter;?>">
+																<div class="modal fade text-left" id="addNewDepartmentModal<?php echo $counter;?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17" aria-hidden="true">
+																	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+																		<div class="modal-content">
+																			<div class="modal-header">
+																				<h4 class="modal-title" id="myModalLabel17">Edit Sub Menu </h4>
+																				<input type="hidden" value="<?php echo $function->dataEncryption($rowMenu['module_id']);?>" id="valueId<?php echo $counter;?>">
+																				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																					<span aria-hidden="true">&times;</span>
+																				</button>
+																			</div>
+																			<div class="modal-body">
+																				<div class="row">
+																					<div class="col-12">
+																						<div class="form-group row">
+																							<div class="col-md-4">
+																								<span>Menu Category</span>
+																							</div>
+																							<div class="col-md-8">
+																								<select id="selectMenuCategory<?php echo $counter;?>" class="form-control" onchange="getMainMenu(<?php echo $counter;?>);">
+																									<option value="">Select Menu Category</option>
+																								<?php 
+																									$selectMenuCategory = mysqli_query($conn,"select * from ".$masterMenuCategoryTbl." where status='1' order by menu_category_name");
+																									while($rowMenuCategory = mysqli_fetch_array($selectMenuCategory))
+																									{
+																								?>
+																									<option value="<?php echo $rowMenuCategory['menu_category_id'];?>" <?php if($rowMenuCategory['menu_category_id']==$rowMenu['menu_category_id']){echo "selected";}?>><?php echo $rowMenuCategory['menu_category_name'];?></option>
+																								<?php
+																									}
+																								?>
+																								</select>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-12">
+																						<div class="form-group row">
+																							<div class="col-md-4">
+																								<span>Main Menu</span>
+																							</div>
+																							<div class="col-md-8">
+																								<select id="selectMainMenu<?php echo $counter;?>" class="form-control">																									
+																								<?php 
+																									$selectMainMenu = mysqli_query($conn,"select * from ".$masterMenuModuleTbl." where parent_module_id='0' and menu_category_id='".$rowMenu['menu_category_id']."'");
+																									while($rowMainMenu = mysqli_fetch_array($selectMainMenu))
+																									{
+																								?>
+																									<option value="<?php echo $rowMainMenu['module_id'];?>" <?php if($rowMainMenu['module_id']==$rowMenu['parent_module_id']){echo "selected";}?>><?php echo $rowMainMenu['module_name'];?></option>
+																								<?php
+																									}
+																								?>
+																								</select>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-12">
+																						<div class="form-group row">
+																							<div class="col-md-4">
+																								<span>Sub Menu Name</span>
+																							</div>
+																							<div class="col-md-8">
+																								<input type="text" id="menuSubName<?php echo $counter;?>" class="form-control" name="menuSubName" value="<?php echo $rowMenu['module_name'];?>" placeholder="Sub Menu Name">
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="modal-footer">
+																				<button type="button" onclick="editSubMenu(<?php echo $counter;?>);" id="submitButton<?php echo $counter;?>" class="btn btn-primary mr-1 mb-1">Update Menu</button>
+																				<button style="display:none;" id="loadingButton<?php echo $counter;?>" class="btn btn-danger mb-1" type="button" disabled>
+																					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+																					Loading...
+																				</button>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													<?php
+															$counter++;
+														}
+													?>
+													</tbody>
+													<tfoot>
+														<tr>
+															<th>#ID</th>
+															<th>Menu Category</th>
+															<th>Sub Name</th>
+															<th>Action</th>
+														</tr>
+													</tfoot>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+		<div class="sidenav-overlay"></div>
+		<div class="drag-target"></div>
+		<footer class="footer footer-static footer-light">
+			<p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2019<a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafte & Made with<i class="feather icon-heart pink"></i></span> <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button></p>
+		</footer>
+		<script src="app-assets/vendors/js/vendors.min.js"></script>
+		<script src="app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
+		<script src="app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
+		<script src="app-assets/js/core/app-menu.js"></script>
+		<script src="app-assets/js/core/app.js"></script>
+		<script src="app-assets/js/scripts/components.js"></script>
+		<script src="app-assets/js/scripts/datatables/datatable.js"></script>
+		<script src="app-assets/js/scripts/modal/components-modal.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script>
+			function getMainMenu(x)
+			{
+				selectMenuCategory=document.getElementById("selectMenuCategory"+x).value;
+
+				var datastring="selectMenuCategory="+selectMenuCategory+"&role=getMainMenu";
+				$.ajax({
+					url: "backendFilesFolders/masterMenuManageBackend",
+					type:"post",
+					catch:false,
+					data:datastring,
+					success: function(result)
+					{
+						document.getElementById("selectMainMenu"+x).innerHTML = result;
+					}
+				});
+			}
+			function addSubMenu()
+			{
+				document.getElementById("submitButton").style.display = "none";
+				document.getElementById("loadingButton").style.display = "block";
+				
+				selectMenuCategory=document.getElementById("selectMenuCategory0").value;
+				menuName=document.getElementById("selectMainMenu0").value;
+				menuSubName=document.getElementById("menuSubName").value;
+				menuSubName = menuSubName.replaceAll("&","~");
+				
+				if(selectMenuCategory=="")
+				{
+					$(function() {						
+						Swal.fire({
+							icon: 'error',
+							title: '  Error !!!',
+							text: '  Please Select Menu Category!!',
+							timer: 3000
+					  	});
+					});
+					document.getElementById("submitButton").style.display = "block";
+					document.getElementById("loadingButton").style.display = "none";
+					return;
+				}
+				else if(menuName=="")
+				{
+					$(function() {						
+						Swal.fire({
+							icon: 'error',
+							title: '  Error !!!',
+							text: '  Please Select Main Menu Name!!',
+							timer: 3000
+					  	});
+					});
+					document.getElementById("submitButton").style.display = "block";
+					document.getElementById("loadingButton").style.display = "none";
+					return;
+				}
+				else if(menuSubName=="")
+				{
+					$(function() {						
+						Swal.fire({
+							icon: 'error',
+							title: '  Error !!!',
+							text: '  Please Provide Sub Menu Name!!',
+							timer: 3000
+					  	});
+					});
+					document.getElementById("submitButton").style.display = "block";
+					document.getElementById("loadingButton").style.display = "none";
+					return;
+				}
+				else
+				{
+					var datastring="selectMenuCategory="+selectMenuCategory+"&menuName="+menuName+"&menuSubName="+menuSubName+"&role=addSubMenu";
+					$.ajax({
+						url: "backendFilesFolders/masterMenuManageBackend",
+						type:"post",
+						catch:false,
+						data:datastring,
+						success: function(result)
+						{
+							str1=result;
+							str1=str1.trim();
+							
+							if(!(str1.localeCompare("1")))
+							{
+								$(function() {						
+									Swal.fire({
+										icon: 'success',
+										title: '  Successs !!!',
+										text: '  Sub Menu Added Successfully',
+										confirmButtonColor: "#3085d6",
+										confirmButtonText: "Yes, reload it!"
+								  	}).then((result) => {
+									  	if (result.isConfirmed) 
+									  	{
+										    location.reload();
+									  	}
+									});
+								});
+							}
+							else if(!(str1.localeCompare("5")))
+							{
+								$(function() {						
+									Swal.fire({
+										icon: 'error',
+										title: '  Error !!!',
+										text: '  Sub Menu Added Already!!',
+										timer: 3000
+								  	});
+								});
+								document.getElementById("submitButton").style.display = "block";
+								document.getElementById("loadingButton").style.display = "none";
+								return;
+							}
+							else
+							{
+								$(function() {						
+									Swal.fire({
+										icon: 'error',
+										title: '  Error !!!',
+										text: '  Database error '+result+' !!!',
+										timer: 3000
+								  	});
+								});
+								document.getElementById("submitButton").style.display = "block";
+								document.getElementById("loadingButton").style.display = "none";
+								return;
+							}
+						}
+					});
+				}
+			} 
+			function editSubMenu(x)
+			{
+				document.getElementById("submitButton"+x).style.display = "none";
+				document.getElementById("loadingButton"+x).style.display = "block";
+				
+				valueId=document.getElementById("valueId"+x).value;
+				selectMenuCategory=document.getElementById("selectMenuCategory"+x).value;
+				menuName=document.getElementById("selectMainMenu"+x).value;
+				menuSubName=document.getElementById("menuSubName"+x).value;
+				menuSubName = menuSubName.replaceAll("&","~");
+				
+				if(selectMenuCategory=="")
+				{
+					$(function() {						
+						Swal.fire({
+							icon: 'error',
+							title: '  Error !!!',
+							text: '  Please Select Menu Category!!',
+							timer: 3000
+					  	});
+					});
+					document.getElementById("submitButton"+x).style.display = "block";
+					document.getElementById("loadingButton"+x).style.display = "none";
+					return;
+				}
+				else if(menuName=="")
+				{
+					$(function() {						
+						Swal.fire({
+							icon: 'error',
+							title: '  Error !!!',
+							text: '  Please Select Main Menu!!',
+							timer: 3000
+					  	});
+					});
+					document.getElementById("submitButton"+x).style.display = "block";
+					document.getElementById("loadingButton"+x).style.display = "none";
+					return;
+				}
+				else if(menuSubName=="")
+				{
+					$(function() {						
+						Swal.fire({
+							icon: 'error',
+							title: '  Error !!!',
+							text: '  Please Provide Sub Menu Name!!',
+							timer: 3000
+					  	});
+					});
+					document.getElementById("submitButton"+x).style.display = "block";
+					document.getElementById("loadingButton"+x).style.display = "none";
+					return;
+				}
+				else
+				{
+					var datastring="selectMenuCategory="+selectMenuCategory+"&menuName="+menuName+"&menuSubName="+menuSubName+"&role=editSubMenu&valueId="+valueId;
+					$.ajax({
+						url: "backendFilesFolders/masterMenuManageBackend",
+						type:"post",
+						catch:false,
+						data:datastring,
+						success: function(result)
+						{
+							str1=result;
+							str1=str1.trim();
+							
+							if(!(str1.localeCompare("1")))
+							{
+								$(function() {						
+									Swal.fire({
+										icon: 'success',
+										title: '  Successs !!!',
+										text: '  Sub Menu Updated Successfully',
+										confirmButtonColor: "#3085d6",
+										confirmButtonText: "Yes, reload it!"
+								  	}).then((result) => {
+									  	if (result.isConfirmed) 
+									  	{
+										    location.reload();
+									  	}
+									});
+								});
+							}
+							else if(!(str1.localeCompare("2")))
+							{
+								$(function() {						
+									Swal.fire({
+										icon: 'error',
+										title: '  Error !!!',
+										text: '  Sub Menu Added Already!!',
+										timer: 3000
+								  	});
+								});
+								document.getElementById("submitButton"+x).style.display = "block";
+								document.getElementById("loadingButton"+x).style.display = "none";
+								return;
+							}
+							else
+							{
+								$(function() {						
+									Swal.fire({
+										icon: 'error',
+										title: '  Error !!!',
+										text: '  Database error '+result+' !!!',
+										timer: 3000
+								  	});
+								});
+								document.getElementById("submitButton"+x).style.display = "block";
+								document.getElementById("loadingButton"+x).style.display = "none";
+								return;
+							}
+						}
+					});
+				}
+			}
+		</script>
+	</head>
+<?php  
+		}
+		else
+		{
+			echo "<script>alert('You Dont Have Permission To Access This Page.');location.href='dashboard';</script>";
+		}
+	}
+	else
+	{
+		echo "<meta http-equiv='refresh' content='0;URL=logout'>"; 
+	}
+?>
