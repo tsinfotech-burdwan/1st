@@ -9,7 +9,7 @@
 
 		$selectUserLoginDetails = mysqli_query($conn,"select * from ".$masterLoginDetailsTbl." where user_id='".$_SESSION[$counterSessionName]['user_id']."'");
 		$rowUserLoginDetails = mysqli_fetch_array($selectUserLoginDetails);
-?>
+?> 
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 	<head>
@@ -228,7 +228,7 @@
             if(reg.test(name)==false) 
             {
                 alert("Please Provide Valid Name Befor Submit");
-                document.getElementById("name").value = "";
+                document.getElementById("fullNameUser").value = "";
                 return;
             }
             else
@@ -261,7 +261,7 @@
             if(reg.test(emailID)==false) 
             {
                 alert("Please Provide Valid E-Mail ID Befor Submit");
-                document.getElementById("emailID").value = "";
+                document.getElementById("emailIdUser").value = "";
                 return;
             }
             else
@@ -293,7 +293,7 @@
             if(mobile.length!=10)
             {
                 alert("Please Provide Mobile Number Befor Submit");
-                document.getElementById("mobile").value = "";
+                document.getElementById("mobcontactUserile").value = "";
                 return;
             }
             else

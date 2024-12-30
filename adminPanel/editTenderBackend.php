@@ -38,11 +38,11 @@
 				{
 				  	$errorStatus="9";				  
 				}
-				else if(preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬]/',$selectTenderType))
+				else if(preg_match('/[^0-9]/',$selectTenderType)>0 || $selectTenderType<1)
 				{
 				  	$errorStatus="10";				  
 				}
-				else if(preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬]/',$selectFinancialYear))
+				else if(preg_match('/[^0-9]/',$selectFinancialYear)>0 || $selectFinancialYear<1)
 				{
 				  	$errorStatus="11";				  
 				}

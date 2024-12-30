@@ -4,7 +4,7 @@
 	include 'base/config.php';
 	if(isset($_SESSION[$counterSessionName]['user_id']) && $_SESSION[$counterSessionName]['user_id']!="")
 	{ 
-		if(in_array(19,$userPermissionDetails)) 
+		if(in_array(19,$userPermissionDetails))  
 		{
 			$today=date('Y-m-d');
 			$noticeTitle=$_POST['noticeTitle'];

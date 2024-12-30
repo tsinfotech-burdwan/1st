@@ -73,7 +73,7 @@
                     </a>
                     <ul class="dropdown-menu border-0 p-2 rounded-3">
                         <li><a class="dropdown-item p-2 rounded-2" href="<?php echo $base_url;?>informations?<?php echo $function->dataEncryption('Building Plan'); ?>">Building Plan</a></li>
-                        <li><a class="dropdown-item p-2 rounded-2" href="<?php echo $base_url;?>informations?<?php echo $function->dataEncryption('Death+And Birth Registrations'); ?>">Death And Birth Registrations</a></li>
+                        <li><a class="dropdown-item p-2 rounded-2" href="<?php echo $base_url;?>informations?<?php echo $function->dataEncryption('Death And Birth Registrations'); ?>">Death And Birth Registrations</a></li>
                     </ul> 
                 </li>
                 <li class="nav-item dropdown">

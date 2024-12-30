@@ -8,7 +8,7 @@
 		{
 			$mainPageName = "Add Notice";
 			$subPageName = "Add Notice";
-?> 
+?>  
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 	<head>

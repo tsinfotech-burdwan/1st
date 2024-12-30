@@ -206,7 +206,7 @@
 			{
 				return 1;
 			}
-		}
+		} 
 
 		function uploadFileChecking($uploadFileName,$uploadFileTmpName)
 		{

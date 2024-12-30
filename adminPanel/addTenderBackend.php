@@ -32,11 +32,11 @@
 				{
 				  	$errorStatus="8";				  
 				}
-				else if(preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬]/',$selectTenderType))
+				else if(preg_match('/[^0-9]/',$selectTenderType)>0 || $selectTenderType<1)
 				{
 				  	$errorStatus="9";				  
 				}
-				else if(preg_match('/[\'^£$%&*()}{@#~?><>|=_+¬]/',$selectFinancialYear))
+				else if(preg_match('/[^0-9]/',$selectFinancialYear)>0 || $selectFinancialYear<1)
 				{
 					$errorStatus="10";				  
 				}
@@ -68,7 +68,7 @@
 								$newFileName = date("YmdHis").".".$ext;
 								$newFileName1 = "gallery/".date("YmdHis").".".$ext;
 								$upload = move_uploaded_file($uploadFileTmpName,$pathoriginal.$newFileName);
-								if($selectTenderType=='E-Tender')
+								if($selectTenderType==1)
 								{
 									$insert = mysqli_query($conn,"insert into ".$tenderDetailsTbl." set tender_head='".$TenderDetails."',tender_type='".$selectTenderType."',tender_year='".$selectFinancialYear."',value='".$receiveAmount."',last_date='".$bidEndDate."',start_date='".$bidStartDate."',due_date_open='".$bidOpenDate."',details='".$newFileName1."',submition='https://wbtenders.gov.in/nicgep/app',references_details='".$tenderId."',date='".date("Y-m-d")."',new='y',status='n'");
 									if($insert) 
@@ -80,7 +80,7 @@
 										$errorStatus="5";	
 									}
 								}
-								else if($selectTenderType=='Normal Tender')
+								else if($selectTenderType==2)
 								{
 									$insert = mysqli_query($conn,"insert into ".$tenderDetailsTbl." set tender_head='".$TenderDetails."',tender_type='".$selectTenderType."',tender_year='".$selectFinancialYear."',value='".$receiveAmount."',last_date='".$bidEndDate."',start_date='".$bidStartDate."',due_date_open='".$bidOpenDate."',details='".$newFileName1."',submition='Nil',references_details='".$tenderId."',date='".date("Y-m-d")."',new='y',status='n'");
 									if($insert) 
@@ -92,7 +92,7 @@
 										$errorStatus="5";	
 									}							
 								}
-								else if($selectTenderType=='Corrigendum')
+								else if($selectTenderType==3)
 								{
 									$insert = mysqli_query($conn,"insert into ".$tenderDetailsTbl." set tender_head='".$TenderDetails."',tender_type='".$selectTenderType."',tender_year='".$selectFinancialYear."',value='".$receiveAmount."',last_date='".$bidEndDate."',start_date='".$bidStartDate."',due_date_open='".$bidOpenDate."',details='".$newFileName1."',submition='Nil',references_details='".$tenderId."',date='".date("Y-m-d")."',new='y',status='n'");
 									if($insert)

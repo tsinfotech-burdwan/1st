@@ -9,6 +9,7 @@
 	$masterDepartmentTbl = "master_department";
 	$masterDesignationTbl = "master_designation";
 	$masterFinancialYearTbl = "master_financial_year";
+	$masterTenderTypeTbl = "master_tender_type_details";
 	$masterImageDetailsTbl = "image_gallery";
 	$masterFolderDetailsTbl = "image_gallery_folder_details";
 	/* MASTER TABLES */
@@ -32,4 +33,4 @@
 	$contactUsDetailsTbl = "contact_us_details_tbl";
 	$pageDetailsTbl = "page_details_tbl";
 	/* Transaction Table List */
-?> 
+?>

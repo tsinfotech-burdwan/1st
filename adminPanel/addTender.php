@@ -88,26 +88,35 @@
 			                                                <fieldset class="form-group position-relative has-icon-left input-divider-left">
 			                                                    <select id="selectTenderType" name="selectTenderType" class="form-control select2" onchange="spclCharChk('selectTenderType');">
 																	<option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Tender Type</option>
-																	<option value="E-Tender">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E-Tender</option>										
-																	<option value="Normal Tender">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normal Tender</option>										
-																	<option value="Corrigendum">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Corrigendum</option>										
+																<?php 
+																	$selectTenaderTypeDetails = mysqli_query($conn,"select * from ".$masterTenderTypeTbl." where status='1' order by tender_type_id asc");
+																	while($rowTenaderTypeDetails = mysqli_fetch_array($selectTenaderTypeDetails))
+																	{
+																?>
+																	<option value="<?php echo $rowTenaderTypeDetails['tender_type_id'];?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $rowTenaderTypeDetails['tender_type_name'];?></option>										
+																<?php 
+																	}
+																?>										
 																</select>
 			                                                    <div class="form-control-position">
 			                                                        <i class="fa fa-ticket"></i>
 			                                                    </div>
 			                                                </fieldset>
-			                                            </div> 
+			                                            </div>  
 			                                            <div class="col-sm-4 col-12">
 			                                                <div class="text-bold-600 font-medium-1">Financial Year</div>
 			                                                <fieldset class="form-group position-relative has-icon-left input-divider-left">
 			                                                    <select id="selectFinancialYear" name="selectFinancialYear" class="form-control select2" onchange="spclCharChk('selectFinancialYear');">
 																	<option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Financial Year</option>
-																	<option value="2024-2025">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2024-2025</option>										
-																	<option value="2025-2026">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2025-2026</option>										
-																	<option value="2026-2027">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2026-2027</option>										
-																	<option value="2027-2028">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2027-2028</option>										
-																	<option value="2028-2029">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2028-2029</option>										
-																	<option value="2029-2030">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2029-2030</option>										
+																<?php 
+																	$selectFinancialYearDetails = mysqli_query($conn,"select * from ".$masterFinancialYearTbl." where status='1' order by financial_year_id asc");
+																	while($rowFinancialYearDetails = mysqli_fetch_array($selectFinancialYearDetails))
+																	{
+																?>
+																	<option value="<?php echo $rowFinancialYearDetails['financial_year_id'];?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $rowFinancialYearDetails['financial_year'];?></option>										
+																<?php 
+																	}
+																?>										
 																</select>
 			                                                    <div class="form-control-position">
 			                                                        <i class="fa fa-ticket"></i>

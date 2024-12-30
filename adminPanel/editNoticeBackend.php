@@ -2,7 +2,7 @@
 	ob_start();
 	session_start(); 
 	include '../base/config.php';
-	if(isset($_SESSION[$counterSessionName]['user_id']) && $_SESSION[$counterSessionName]['user_id']!="")
+	if(isset($_SESSION[$counterSessionName]['user_id']) && $_SESSION[$counterSessionName]['user_id']!="") 
 	{ 
 		if(in_array(20,$userPermissionDetails)) 
 		{

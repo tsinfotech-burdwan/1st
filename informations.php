@@ -3,11 +3,10 @@
     include_once('includes/url.inc.php');
 
     $urls =  (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    if(preg_match("/[\'^£$%&*()}{@#~><>,;|_+¬-]/", $urls)==0) 
+    $urlArray = explode("/", $urls);
+    $pagename = @end(explode("?", $urls));
+    if(preg_match("/[\'^£$%&*()}{@#~><>,;|_+¬-]/", $pagename)==0) 
     {
-        $urlArray = explode("/", $urls);
-        $pagename = @end(explode("?", $urls)); 
-
         $decode = $function->dataDecryption($pagename);
         $selectAbout = mysqli_query($conn,"select * from ".$pageDetailsTbl." where page_title='".$decode."'");
         if(mysqli_num_rows($selectAbout)>0)
@@ -21,13 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="<?php echo $base_url;?>assets/images/favicon.ico" type="image/x-icon"> 
-    <?php if ($decode === 'Building Plan') { ?>
-    <title>Building Plan</title>
-    <?php } else if($decode === 'Death And Birth Registrations') { ?>
-    <title>Death And Birth Registrations</title>
-    <?php } ?>
- 
-    <!-- All Stylesheets -->
+    <title>Burdwan Municipalty | <?php echo $rowAbout['page_title'];?></title>
     <?php $folder='root'; include_once('includes/stylesheets.inc.php'); ?> 
 </head>
 <body> 
@@ -115,7 +108,6 @@
                         <?php }
                         else 
                         {
-
                            echo "<meta http-equiv='refresh' content='0;URL=".$base_url."'>";                        
                         } 
                         ?>

@@ -77,7 +77,6 @@
 													<?php
 														$counter = 1; 
 														$selectTenaderDetails = mysqli_query($conn,"select * from ".$tenderDetailsTbl." where status in ('0','1','2') order by date desc");
-														//$selectTenaderDetails = mysqli_query($conn,"select * from ".$tenderDetailsTbl." where status in ('0','2') order by date desc");
 														while($rowTenderDetails = mysqli_fetch_array($selectTenaderDetails))
 														{
 													?>   
@@ -91,7 +90,7 @@
 															<td><?php echo $rowTenderDetails['start_date']; ?></td>
 															<td><?php echo $rowTenderDetails['last_date']; ?></td>
 															<td><?php echo $rowTenderDetails['due_date_open']; ?></td>
-															<td><?php echo $rowTenderDetails['date']; ?></td>
+															<td><?php echo $rowTenderDetails['date']; ?></td>  
 															<td>
 																<?php
 																	if($rowTenderDetails['status']=='0')

@@ -7,7 +7,7 @@
 		echo "<META HTTP-EQUIV='Refresh' CONTENT='0;URL=../logout'>";
 	}
 	else
-	{
+	{ 
 		$role = $_POST['role'];
 
 		if($role=="departmentAdd")

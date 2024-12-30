@@ -449,8 +449,15 @@
 	            var reg = /^[A-Za-z ]+$/;
 	            if(reg.test(name)==false) 
 	            {
-	                alert("Please Provide Valid Department Name Befor Submit");
-	                document.getElementById("name").value = "";
+	                $(function() {						
+						Swal.fire({
+							type: 'error',
+							title: '  Error !!!',
+							text: '  Please Provide Valid Department Name',
+							timer: 3000
+					  	});
+					});
+	                document.getElementById("departmentName").value = "";
 	                return;
 	            }
 	            else
@@ -468,7 +475,14 @@
 	                        
 	                        if(!(str1.localeCompare("1")))
 	                        {
-	                            alert("Error In Department Name.");
+	                            $(function() {						
+									Swal.fire({
+										type: 'error',
+										title: '  Error !!!',
+										text: '  Error In Department Name',
+										timer: 3000
+								  	});
+								});
 	                            document.getElementById("departmentName").value = "";
 	                            return;
 	                        }
